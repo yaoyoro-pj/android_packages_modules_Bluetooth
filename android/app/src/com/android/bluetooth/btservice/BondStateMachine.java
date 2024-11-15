@@ -406,13 +406,20 @@ final class BondStateMachine extends StateMachine {
     };
 
     private boolean isSkipConfirmationAccessory(BluetoothDevice device) {
+        if (device == null || accConfirmSkip == null) {
+            return false;
+        }
+        String deviceName = device.getName();
+        BluetoothClass deviceClass = device.getBluetoothClass();
+        if (deviceName == null || deviceClass == null) {
+            return false;
+        }
         for (Pair<String, Integer> entry : accConfirmSkip) {
-            if (device.getName().equals(entry.first)
-                    && device.getBluetoothClass().getDeviceClass() == entry.second) {
+            if (Objects.equals(deviceName, entry.first)
+                    && deviceClass.getDeviceClass() == entry.second) {
                 return true;
             }
         }
-
         return false;
     }
 
