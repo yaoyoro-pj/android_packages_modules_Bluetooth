@@ -880,11 +880,13 @@ public final class ScanFilter implements Parcelable {
          * uuidMask} is not {@code null}.
          */
         public Builder setServiceUuid(ParcelUuid serviceUuid, ParcelUuid uuidMask) {
-            if (mUuidMask != null && mServiceUuid == null) {
-                throw new IllegalArgumentException("uuid is null while uuidMask is not null!");
+            if (serviceUuid == null) {
+                mServiceUuid = null;
+                mUuidMask = null;
+            } else {
+                mServiceUuid = serviceUuid;
+                mUuidMask = uuidMask;
             }
-            mServiceUuid = serviceUuid;
-            mUuidMask = uuidMask;
             return this;
         }
 
